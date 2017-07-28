@@ -1,0 +1,29 @@
+/**
+  ******************************************************************************
+  * @file    main.c
+  * @author  Ac6
+  * @version V1.0
+  * @date    01-December-2013
+  * @brief   Default main function.
+  ******************************************************************************
+*/
+
+
+#include "stm32f4xx.h"
+#define PB7_SET_MASK 0x80
+#define PB7_CLEAR_MASK 0x7F
+
+int main(void)
+{
+	while(1)
+	{
+		GPIOB->MODER = 0x0040;
+		GPIOB->OTYPER = 0x0;
+		GPIOB->OSPEEDR7 = 0x00C0;
+
+
+
+		GPIOB->MODER |= PB7_SET_MASK;
+		GPIOB->MODER &= PB7_CLEAR_MASK;
+	}
+}

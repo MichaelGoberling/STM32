@@ -20,3 +20,12 @@ Command-line arguments:  -os win32 -ws win32 -arch x86_64 -pluginCustomization c
 
 !ENTRY org.eclipse.cdt.core 1 0 2017-07-27 20:20:04.822
 !MESSAGE Indexed 'test' (45 sources, 44 headers) in 4.4 sec: 6,564 declarations; 23,627 references; 10 unresolved inclusions; 17 syntax errors; 7,794 unresolved names (21%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2017-07-27 21:08:06.796
+!MESSAGE Indexed 'testProgram' (45 sources, 95 headers) in 6.66 sec: 8,711 declarations; 35,111 references; 0 unresolved inclusions; 1 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.launchbar.core 2 0 2017-07-27 21:09:55.142
+!MESSAGE Enablement expression is missing for descriptor type org.eclipse.cdt.debug.core.coreBuildDescriptorType
+
+!ENTRY org.eclipse.launchbar.core 2 0 2017-07-27 21:09:55.213
+!MESSAGE Enablement expression is missing for config provider for org.eclipse.cdt.debug.core.coreBuildDescriptorType
