@@ -17,7 +17,7 @@
 
 //Function Declarations
 //--------------------------------------|
-void toggleLED(void);
+void toggleLEDs(void);
 void setGPIOBRegs(void);
 void setTimer6(void);
 void wait(void);
@@ -33,7 +33,7 @@ int main(void)
 
 	while(1)
 	{
-		toggleLED();
+		toggleLEDs();
 	}
 
 	return 0;
@@ -81,7 +81,7 @@ void wait(void)
 
 }
 
-void toggleLED(void)
+void toggleLEDs(void)
 {
 	//Set LEDs low
 	GPIOB->ODR &= 0x00;
