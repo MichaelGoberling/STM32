@@ -1,23 +1,6 @@
-23:41:49 **** Incremental Build of configuration Debug for project testProgram ****
+00:50:49 **** Incremental Build of configuration Debug for project testProgram ****
 make all 
-Building file: ../src/main.c
-Invoking: MCU GCC Compiler
-C:\Users\Michael\Documents\STM32\Workspace\STM32\testProgram\Debug
-arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -DSTM32F412ZGTx -DSTM32F4 -DNUCLEO_F412ZG -DSTM32 -DDEBUG -DUSE_STDPERIPH_DRIVER -DSTM32F412xG -I"C:/Users/Michael/Documents/STM32/Workspace/STM32/testProgram/inc" -I"C:/Users/Michael/Documents/STM32/Workspace/STM32/testProgram/CMSIS/core" -I"C:/Users/Michael/Documents/STM32/Workspace/STM32/testProgram/CMSIS/device" -I"C:/Users/Michael/Documents/STM32/Workspace/STM32/testProgram/StdPeriph_Driver/inc" -O0 -g3 -Wall -fmessage-length=0 -ffunction-sections -c -MMD -MP -MF"src/main.d" -MT"src/main.o" -o "src/main.o" "../src/main.c"
-Finished building: ../src/main.c
- 
-Building target: testProgram.elf
-Invoking: MCU GCC Linker
-arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -T"C:\Users\Michael\Documents\STM32\Workspace\STM32\testProgram\LinkerScript.ld" -Wl,-Map=output.map -Wl,--gc-sections -o "testProgram.elf" @"objects.list"   -lm
-Finished building target: testProgram.elf
- 
-make --no-print-directory post-build
-Generating binary and Printing size information:
-arm-none-eabi-objcopy -O binary "testProgram.elf" "testProgram.bin"
-arm-none-eabi-size "testProgram.elf"
-   text	   data	    bss	    dec	    hex	filename
-   1576	   1076	   1568	   4220	   107c	testProgram.elf
- 
+make: Nothing to be done for `all'.
 
-23:41:50 Build Finished (took 975ms)
+00:50:49 Build Finished (took 272ms)
 

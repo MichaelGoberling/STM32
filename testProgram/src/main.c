@@ -1,10 +1,10 @@
 /**
   ******************************************************************************
   * @file    main.c
-  * @author  Ac6
+  * @author  Michael Goberling
   * @version V1.0
-  * @date    01-December-2013
-  * @brief   Default main function.
+  * @date    27-July-2017
+  * @brief   LED blinking C program
   ******************************************************************************
 */
 
@@ -12,14 +12,24 @@
 #include "stm32f4xx.h"
 #define PB7_SET_MASK 0x80
 #define PB7_CLEAR_MASK 0x7F
+#define TIM6_EN 4
 
+
+//Function Declarations
+//--------------------------------------|
 void toggleLED(void);
 void setGPIOBRegs(void);
+void setTimer6(void);
+void wait(void);
+//--------------------------------------|
+
 
 int main(void)
 {
 	//Function call to initialize GPIOB clock en and GPIOB settings
 	setGPIOBRegs();
+	//Function call to initialize TIM6 prescale and re-load settings
+	setTimer6();
 
 	while(1)
 	{
@@ -28,8 +38,10 @@ int main(void)
 
 	return 0;
 }
+
 void setGPIOBRegs(void)
 {
+	//Enable clock on AHB1 bus
 	RCC->AHB1ENR |= 0x02;
 
 	//Set mode to general purpose output
@@ -39,28 +51,57 @@ void setGPIOBRegs(void)
 	GPIOB->OTYPER |= 0x00;
 	GPIOB->OSPEEDR |= 0x0000;
 	GPIOB->PUPDR |= 0x0;
+
 }
 
+//Function to initialize timer 6
+void setTimer6(void)
+{
+	//Enable clock on APB1 bus
+	RCC->APB1ENR |= (1 << TIM6_EN);
+
+	//Safety net to enable count to 0
+	TIM6->CNT |= 0x0;
+
+	// (1024/64,000,000) * 62500 = 1sec
+	TIM6->PSC |= 1024;
+	TIM6->ARR |= 62500;
+
+	//Enable timer
+	TIM6->CR1 |= 0x01;
+
+}
+
+//wait for timer high
+void wait(void)
+{
+	//Wait and reset timer
+	while(!(TIM6->SR & 1));
+	TIM6->SR &= ~(1 << 0);
+
+}
 
 void toggleLED(void)
 {
-		//Set line to blue LED high
-		GPIOB->ODR &= 0x00;
+	//Set LEDs low
+	GPIOB->ODR &= 0x00;
 
-		for(int i = 0; i < 5000000; i++);
+	//1 sec delay timer
+	wait();
 
-		//Set line to blue + red LED low
-		GPIOB->ODR |= 0x0080;
+	//Set blue LED high
+	GPIOB->ODR |= 0x0080;
 
-		for(int i = 0; i < 5000000; i++);
+	wait();
 
-		//Set line to red LED high
-		GPIOB->ODR &= 0x00;
+	//Set LEDs low
+	GPIOB->ODR &= 0x00;
 
-		for(int i = 0; i < 500000; i++);
+	wait();
 
-		//Set line to  blue + red LED low
-		GPIOB->ODR |= 0x4000;
+	//Set red LED high
+	GPIOB->ODR |= 0x4000;
 
-		for(int i = 0; i < 500000; i++);
+	wait();
+
 }
