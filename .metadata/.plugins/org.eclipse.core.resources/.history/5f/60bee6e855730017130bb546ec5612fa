@@ -1,0 +1,100 @@
+/**
+  ******************************************************************************
+  * @file    main.c
+  * @author  Ac6
+  * @version V1.0
+  * @date    01-December-2013
+  * @brief   Default main function.
+  ******************************************************************************
+*/
+
+
+#include "stm32f4xx.h"
+#define PB7_SET_MASK 0x80
+#define PB7_CLEAR_MASK 0x7F
+#define TIM6_EN 4
+
+void toggleLED(void);
+void setGPIOBRegs(void);
+void setTimer6(void);
+void wait(void);
+
+int main(void)
+{
+	//Function call to initialize GPIOB clock en and GPIOB settings
+	setGPIOBRegs();
+	//Function call to initialize TIM6 prescale and re-load settings
+	setTimer6();
+
+	while(1)
+	{
+		toggleLED();
+	}
+
+	return 0;
+}
+
+void setGPIOBRegs(void)
+{
+	//Enable clock on AHB1 bus
+	RCC->AHB1ENR |= 0x02;
+
+	//Set mode to general purpose output
+	GPIOB->MODER |= 0x10004000;
+
+	//Not sure if needed to set...
+	GPIOB->OTYPER |= 0x00;
+	GPIOB->OSPEEDR |= 0x0000;
+	GPIOB->PUPDR |= 0x0;
+
+}
+
+//Function to initialize timer 6
+void setTimer6(void)
+{
+	//Enable clock on APB1 bus
+	RCC->APB1ENR |= (1 << TIM6_EN);
+
+	//Safety net to enable count to 0
+	TIM6->CNT |= 0x0;
+
+	// (1024/64,000,000) * 62500 = 1sec
+	TIM6->PSC |= 1024;
+	TIM6->ARR |= 62500;
+
+	//Enable timer
+	TIM6->CR1 |= 0x01;
+
+}
+
+void wait(void)
+{
+	//Wait and reset timer
+	while(!(TIM6->SR & 1));
+	TIM6->SR &= ~(1 << 0);
+
+}
+
+void toggleLED(void)
+{
+	//Set LEDs low
+	GPIOB->ODR &= 0x00;
+
+	wait();
+
+	//Set blue LED high
+	GPIOB->ODR |= 0x0080;
+
+	wait();
+
+	//Set LEDs low
+	GPIOB->ODR &= 0x00;
+
+	wait();
+
+	//Set red LED high
+	GPIOB->ODR |= 0x4000;
+
+	wait();
+
+}
